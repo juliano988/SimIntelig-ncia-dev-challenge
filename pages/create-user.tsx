@@ -14,7 +14,28 @@ const schema = yup.object().shape({
 export default function CreateUser() {
 
   const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(schema) });
-  const onSubmit = data => console.log(data);
+  function onSubmit(data: { name: string, email: string, password: string, password2: string }) {
+    console.log(data)
+    const reqHeader = new Headers();
+    reqHeader.append('Content-Type', 'application/json');
+    reqHeader.append('X-Requested-With', 'XMLHttpRequest');
+
+    const reqData = {
+      nome: encodeURI(data.name),
+      email: encodeURI(data.email),
+      password: encodeURI(data.password),
+      password_confirmation: encodeURI(data.password2)
+    }
+
+    const reqParams = { method: 'POST', headers: reqHeader, body: JSON.stringify(reqData) }
+    fetch('https://api.avaliacao.siminteligencia.com.br/api/registrar', reqParams)
+      .then(function (res) {
+        return res.json()
+      }).then(function (data) {
+        console.log(data)
+      })
+
+  }
 
   return (
     <Container >
