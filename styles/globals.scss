@@ -1,0 +1,11 @@
+@import "~bootstrap/scss/bootstrap";
+
+body {
+  text-align: center;
+}
+
+.btn-form {
+  background: rgb(0, 178, 253);
+  background: linear-gradient(135deg, rgba(0, 178, 253, 1) 0%, rgba(0, 226, 150, 1) 50%);
+  border-color: transparent !important;
+}
