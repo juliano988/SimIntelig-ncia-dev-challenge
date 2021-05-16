@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Link from 'next/link';
-import { Button, Container, Form, Toast } from "react-bootstrap";
+import { Button, Container, Form, Spinner, Toast } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
@@ -17,6 +17,7 @@ export default function CreateUser() {
   const [showToast, setShowToast] = useState<boolean>(false);
   const [reqStatus, setreqStatus] = useState<boolean>();
   const [reqMessage, setreqMessage] = useState<string>('');
+  const [submitLoading, setsubmitLoading] = useState<boolean>(false);
 
   const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(schema) });
 
@@ -34,6 +35,7 @@ export default function CreateUser() {
     }
 
     const reqParams = { method: 'POST', headers: reqHeader, body: JSON.stringify(reqData) }
+    setsubmitLoading(true)
     fetch('https://api.avaliacao.siminteligencia.com.br/api/registrar', reqParams)
       .then(function (res) {
         return res.json()
@@ -41,6 +43,7 @@ export default function CreateUser() {
         setreqStatus(data.sucesso);
         setreqMessage(data.mensagem);
         setShowToast(true);
+        setsubmitLoading(false)
       })
   }
 
@@ -97,7 +100,9 @@ export default function CreateUser() {
             </Link>
           </div>
 
-          <Button type="submit" className="w-100 mt-2 btn-form" size="sm">Registrar</Button>
+          <Button type="submit" disabled={submitLoading ? true : false} className="w-100 mt-2 btn-form" size="sm">
+            {submitLoading ? <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" /> : 'Registrar'}
+          </Button>
 
         </Form>
       </Container>
