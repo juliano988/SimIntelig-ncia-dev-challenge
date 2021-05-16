@@ -19,7 +19,7 @@ export default function CreateUser() {
   const [reqMessage, setreqMessage] = useState<string>('');
   const [submitLoading, setsubmitLoading] = useState<boolean>(false);
 
-  const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(schema) });
+  const { register, handleSubmit, reset, formState: { errors } } = useForm({ resolver: yupResolver(schema) });
 
   function onSubmit(data: { name: string, email: string, password: string, password2: string }) {
     console.log(data)
@@ -40,6 +40,10 @@ export default function CreateUser() {
       .then(function (res) {
         return res.json()
       }).then(function (data: { sucesso: boolean, mensagem: string }) {
+        if (data.sucesso) {
+          reset();
+          setTimeout(function () { window.location.href = '/' },3000)
+        }
         setreqStatus(data.sucesso);
         setreqMessage(data.mensagem);
         setShowToast(true);

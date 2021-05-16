@@ -43,7 +43,8 @@ export default function Login() {
       }).then(function (data: { sucesso: boolean, mensagem: string }) {
         console.log(data)
         if ((data as unknown as User).token) {
-          localStorage.setItem('user', JSON.stringify(data as unknown as User))
+          localStorage.setItem('user', JSON.stringify(data as unknown as User));
+          window.location.href = '/update-user';
         } else {
           setreqStatus(data.sucesso);
           setreqMessage(data.mensagem);
@@ -99,7 +100,6 @@ export default function Login() {
         </Toast.Header>
         <Toast.Body>{reqMessage}</Toast.Body>
       </Toast>
-
     </>
   )
 }
