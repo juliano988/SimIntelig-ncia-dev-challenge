@@ -17,3 +17,12 @@ export type User = {
     deleted_at: string
   }
 }
+
+export type UpdateData = {
+  name: string,
+  email: string,
+  phone: string,
+  logradouro: string,
+  cpf: string,
+  cidade: string
+}
