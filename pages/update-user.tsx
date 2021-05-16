@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import styles from '../styles/update-user-styles.module.scss'
 import { Button, Container, Form, Spinner, Toast } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -92,7 +93,6 @@ export default function UpdateUser() {
             .then(function (res) {
               return res.json()
             }).then(function (data: { data: User }) {
-              console.log(data)
               const tempObj: User = { ...browserUser, usuario: { ...browserUser.usuario, ...data.data } };
               localStorage.setItem('user', JSON.stringify(tempObj));
               setbrowserUser(tempObj);
@@ -210,7 +210,7 @@ export default function UpdateUser() {
               </Form.Group>
             </div>
 
-            <div className="mt-2 d-flex justify-content-end">
+            <div className={styles.btns_div+" mt-2 mb-3 d-flex justify-content-end"}>
               <Button type="submit" onClick={handleClickClearBtn} disabled={submitLoading ? true : false} variant="secondary" className="w-25" size="sm">
                 Limpar
               </Button>

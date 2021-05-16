@@ -22,7 +22,6 @@ export default function CreateUser() {
   const { register, handleSubmit, reset, formState: { errors } } = useForm({ resolver: yupResolver(schema) });
 
   function onSubmit(data: { name: string, email: string, password: string, password2: string }) {
-    console.log(data)
     const reqHeader = new Headers();
     reqHeader.append('Content-Type', 'application/json');
     reqHeader.append('X-Requested-With', 'XMLHttpRequest');

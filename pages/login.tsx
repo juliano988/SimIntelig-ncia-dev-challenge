@@ -18,14 +18,9 @@ export default function Login() {
   const [reqMessage, setreqMessage] = useState<string>('');
   const [submitLoading, setsubmitLoading] = useState<boolean>(false);
 
-  //teste123a
-  //teste123a@teste.com
-  //123
-
   const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(schema) });
 
   function onSubmit(data: { email: string, password: string }) {
-    console.log(data)
     const reqHeader = new Headers();
     reqHeader.append('Content-Type', 'application/x-www-form-urlencoded');
     reqHeader.append('X-Requested-With', 'XMLHttpRequest');
@@ -41,7 +36,6 @@ export default function Login() {
       .then(function (res) {
         return res.json()
       }).then(function (data: { sucesso: boolean, mensagem: string }) {
-        console.log(data)
         if ((data as unknown as User).token) {
           localStorage.setItem('user', JSON.stringify(data as unknown as User));
           window.location.href = '/update-user';
