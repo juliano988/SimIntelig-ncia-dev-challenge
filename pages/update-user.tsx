@@ -3,14 +3,14 @@ import { Button, Container, Form, Spinner, Toast } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
-import { useValidationsBR } from 'validations-br';
+import { useValidationsBR, validatePhone } from 'validations-br';
 import { UpdateData, User } from "../customTypes";
 
 
 const schema = yup.object().shape({
   name: yup.string().required('Nome é obrigatório'),
   email: yup.string().email('E-mail inválido').required('E-mail é obrigatório'),
-  phone: yup.string().required('Telefone é obrigatório'),
+  phone: yup.string().test('isValid', 'Telefone inválido', (value) => validatePhone(value)).required('Telefone é obrigatório'),
   logradouro: yup.string().required('Logradouro é obrigatório'),
   cpf: yup.string().test('isValid', 'CPF inválido', (value) => useValidationsBR('cpf', value)).required('CPF é obrigatório'),
   cidade: yup.string().required('Cidade é obrigatório'),
@@ -60,7 +60,6 @@ export default function UpdateUser() {
   }, []);
 
   function onSubmit(data: UpdateData) {
-    console.log(data)
     const reqHeader = new Headers();
     reqHeader.append('Authorization', 'Bearer ' + browserUser.token);
     reqHeader.append('Content-Type', 'application/json');
