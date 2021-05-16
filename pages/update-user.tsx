@@ -3,14 +3,16 @@ import { Button, Container, Form, Spinner, Toast } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
+import { useValidationsBR } from 'validations-br';
 import { UpdateData, User } from "../customTypes";
+
 
 const schema = yup.object().shape({
   name: yup.string().required('Nome é obrigatório'),
   email: yup.string().email('E-mail inválido').required('E-mail é obrigatório'),
   phone: yup.string().required('Telefone é obrigatório'),
   logradouro: yup.string().required('Logradouro é obrigatório'),
-  cpf: yup.string().required('CPF é obrigatório'),
+  cpf: yup.string().test('isValid', 'CPF inválido', (value) => useValidationsBR('cpf', value)).required('CPF é obrigatório'),
   cidade: yup.string().required('Cidade é obrigatório'),
 });
 
@@ -21,6 +23,10 @@ export default function UpdateUser() {
   const [browserUser, setbrowserUser] = useState<User>();
   const [logOutLoading, setlogOutLoading] = useState<boolean>(false);
   const [submitLoading, setsubmitLoading] = useState<boolean>(false);
+
+  const [showToast, setShowToast] = useState<boolean>(false);
+  const [reqStatus, setreqStatus] = useState<boolean>();
+  const [reqMessage, setreqMessage] = useState<string>('');
 
   const { register, handleSubmit, setValue, formState: { errors } } = useForm({ resolver: yupResolver(schema) });
 
@@ -46,7 +52,7 @@ export default function UpdateUser() {
           setValue('phone', tempObj.usuario.telefone);
           setValue('logradouro', tempObj.usuario.endereco);
           setValue('cpf', tempObj.usuario.cpf);
-          setValue('cidade', data.data.nome);
+          setValue('cidade', data.data ? data.data.nome : '');
           setbrowserUser(tempObj);
           setbrowserHasUser(true);
         })
@@ -65,36 +71,41 @@ export default function UpdateUser() {
       .then(function (res) {
         return res.json()
       }).then(function (cityData: { data: Array<{ id: number }> }) {
-        console.log(cityData.data[0].id)
 
-        const reqHeader = new Headers();
-        reqHeader.append('Authorization', 'Bearer ' + browserUser.token);
-        reqHeader.append('Content-Type', 'application/json');
-        reqHeader.append('X-Requested-With', 'XMLHttpRequest');
+        if (cityData.data.length) {
+          const reqHeader = new Headers();
+          reqHeader.append('Authorization', 'Bearer ' + browserUser.token);
+          reqHeader.append('Content-Type', 'application/json');
+          reqHeader.append('X-Requested-With', 'XMLHttpRequest');
 
-        const reqData = {
-          usuario_id: encodeURI(browserUser.usuario.id),
-          nome: encodeURI(data.name),
-          email: encodeURI(data.email),
-          telefone: encodeURI(data.phone),
-          endereco: encodeURI(data.logradouro),
-          cidade_id: encodeURI(cityData.data[0].id.toString(10)),
-          cpf: encodeURI(data.cpf),
-        } as unknown as User;
+          const reqData = {
+            usuario_id: encodeURI(browserUser.usuario.id),
+            nome: encodeURI(data.name),
+            email: encodeURI(data.email),
+            telefone: encodeURI(data.phone),
+            endereco: encodeURI(data.logradouro),
+            cidade_id: encodeURI(cityData.data[0].id.toString(10)),
+            cpf: encodeURI(data.cpf),
+          } as unknown as User;
 
-        const reqParams = { method: 'POST', headers: reqHeader, body: JSON.stringify(reqData) };
-        fetch('https://api.avaliacao.siminteligencia.com.br/api/v1/editar-usuario', reqParams)
-          .then(function (res) {
-            return res.json()
-          }).then(function (data: { data: User }) {
-            console.log(data)
-            const tempObj: User = { ...browserUser, usuario: { ...browserUser.usuario, ...data.data } };
-            localStorage.setItem('user', JSON.stringify(tempObj));
-            setbrowserUser(tempObj);
-          })
-
-      }).catch(function (err) {
-        console.log(err)
+          const reqParams = { method: 'POST', headers: reqHeader, body: JSON.stringify(reqData) };
+          fetch('https://api.avaliacao.siminteligencia.com.br/api/v1/editar-usuario', reqParams)
+            .then(function (res) {
+              return res.json()
+            }).then(function (data: { data: User }) {
+              console.log(data)
+              const tempObj: User = { ...browserUser, usuario: { ...browserUser.usuario, ...data.data } };
+              localStorage.setItem('user', JSON.stringify(tempObj));
+              setbrowserUser(tempObj);
+              setreqStatus(true);
+              setreqMessage('Usuário atualizado com sucesso!');
+              setShowToast(true);
+            })
+        } else {
+          setreqStatus(false);
+          setreqMessage('Cidade não encontrada');
+          setShowToast(true);
+        }
       })
   }
 
@@ -212,6 +223,14 @@ export default function UpdateUser() {
 
           </Form>
         </Container>
+
+        <Toast style={{ position: 'absolute', top: 20, right: 20, color: 'white', backgroundColor: reqStatus ? '#28a745' : '#dc3545' }} onClose={() => setShowToast(false)} show={showToast} delay={3000} autohide>
+          <Toast.Header>
+            <strong className="mr-auto">{reqStatus ? 'Sucesso!' : 'Erro'}</strong>
+          </Toast.Header>
+          <Toast.Body>{reqMessage}</Toast.Body>
+        </Toast>
+
       </>
     )
   } else { return (<></>) }
