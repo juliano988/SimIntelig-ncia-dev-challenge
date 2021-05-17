@@ -94,25 +94,32 @@ export default function UpdateUser() {
               return res.json()
             }).then(function (data: { data: User }) {
 
-              const reqHeader = new Headers();
-              reqHeader.append('Authorization', 'Bearer ' + browserUser.token);
-              reqHeader.append('Content-Type', 'application/json');
-              reqHeader.append('X-Requested-With', 'XMLHttpRequest');
+              if (data.data) {
+                const reqHeader = new Headers();
+                reqHeader.append('Authorization', 'Bearer ' + browserUser.token);
+                reqHeader.append('Content-Type', 'application/json');
+                reqHeader.append('X-Requested-With', 'XMLHttpRequest');
 
-              const reqParams = { headers: reqHeader };
-              fetch('https://api.avaliacao.siminteligencia.com.br/api/v1/carrega-cidade/' + cityData.data[0].id.toString(10), reqParams)
-                .then(function (res) {
-                  return res.json()
-                }).then(function (data: { data: { nome: string } }) {
-                  setValue('cidade', data.data.nome);
-                  const tempObj: User = { ...browserUser, usuario: { ...browserUser.usuario, ...data.data } };
-                  localStorage.setItem('user', JSON.stringify(tempObj));
-                  setbrowserUser(tempObj);
-                  setreqStatus(true);
-                  setreqMessage('Usuário atualizado com sucesso!');
-                  setShowToast(true);
-                })
+                const reqParams = { headers: reqHeader };
+                fetch('https://api.avaliacao.siminteligencia.com.br/api/v1/carrega-cidade/' + cityData.data[0].id.toString(10), reqParams)
+                  .then(function (res) {
+                    return res.json()
+                  }).then(function (data: { data: { nome: string } }) {
+                    setValue('cidade', data.data.nome);
+                    const tempObj: User = { ...browserUser, usuario: { ...browserUser.usuario, ...data.data } };
+                    localStorage.setItem('user', JSON.stringify(tempObj));
+                    setbrowserUser(tempObj);
+                    setreqStatus(true);
+                    setreqMessage('Usuário atualizado com sucesso!');
+                    setShowToast(true);
+                  })
+              } else {
+                setreqStatus(false);
+                setreqMessage('Usuário não atualizado');
+                setShowToast(true);
+              }
             })
+
         } else {
           setreqStatus(false);
           setreqMessage('Cidade não encontrada');
