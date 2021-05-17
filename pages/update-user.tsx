@@ -20,14 +20,15 @@ const schema = yup.object().shape({
 export default function UpdateUser() {
 
   const [browserHasUser, setbrowserHasUser] = useState<boolean>(false);
-
   const [browserUser, setbrowserUser] = useState<User>();
+
   const [logOutLoading, setlogOutLoading] = useState<boolean>(false);
-  const [submitLoading, setsubmitLoading] = useState<boolean>(false);
 
   const [showToast, setShowToast] = useState<boolean>(false);
   const [reqStatus, setreqStatus] = useState<boolean>();
   const [reqMessage, setreqMessage] = useState<string>('');
+
+  const [submitLoading, setsubmitLoading] = useState<boolean>(false);
 
   const { register, handleSubmit, setValue, formState: { errors } } = useForm({ resolver: yupResolver(schema) });
 
@@ -67,6 +68,7 @@ export default function UpdateUser() {
     reqHeader.append('X-Requested-With', 'XMLHttpRequest');
 
     const reqParams = { headers: reqHeader };
+    setsubmitLoading(true);
     fetch('https://api.avaliacao.siminteligencia.com.br/api/v1/busca-cidade/' + data.cidade, reqParams)
       .then(function (res) {
         return res.json()
@@ -93,8 +95,9 @@ export default function UpdateUser() {
             .then(function (res) {
               return res.json()
             }).then(function (data: { data: User }) {
+              const userData: User = data.data;
 
-              if (data.data) {
+              if (userData) {
                 const reqHeader = new Headers();
                 reqHeader.append('Authorization', 'Bearer ' + browserUser.token);
                 reqHeader.append('Content-Type', 'application/json');
@@ -106,23 +109,25 @@ export default function UpdateUser() {
                     return res.json()
                   }).then(function (data: { data: { nome: string } }) {
                     setValue('cidade', data.data.nome);
-                    const tempObj: User = { ...browserUser, usuario: { ...browserUser.usuario, ...data.data } };
+                    const tempObj: User = { ...browserUser, usuario: { ...browserUser.usuario, ...userData.usuario } };
                     localStorage.setItem('user', JSON.stringify(tempObj));
                     setbrowserUser(tempObj);
                     setreqStatus(true);
                     setreqMessage('Usuário atualizado com sucesso!');
+                    setsubmitLoading(false);
                     setShowToast(true);
                   })
               } else {
                 setreqStatus(false);
                 setreqMessage('Usuário não atualizado');
+                setsubmitLoading(false);
                 setShowToast(true);
               }
             })
-
         } else {
           setreqStatus(false);
           setreqMessage('Cidade não encontrada');
+          setsubmitLoading(false);
           setShowToast(true);
         }
       })
