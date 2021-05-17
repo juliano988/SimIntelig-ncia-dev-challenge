@@ -93,12 +93,25 @@ export default function UpdateUser() {
             .then(function (res) {
               return res.json()
             }).then(function (data: { data: User }) {
-              const tempObj: User = { ...browserUser, usuario: { ...browserUser.usuario, ...data.data } };
-              localStorage.setItem('user', JSON.stringify(tempObj));
-              setbrowserUser(tempObj);
-              setreqStatus(true);
-              setreqMessage('Usuário atualizado com sucesso!');
-              setShowToast(true);
+
+              const reqHeader = new Headers();
+              reqHeader.append('Authorization', 'Bearer ' + browserUser.token);
+              reqHeader.append('Content-Type', 'application/json');
+              reqHeader.append('X-Requested-With', 'XMLHttpRequest');
+
+              const reqParams = { headers: reqHeader };
+              fetch('https://api.avaliacao.siminteligencia.com.br/api/v1/carrega-cidade/' + cityData.data[0].id.toString(10), reqParams)
+                .then(function (res) {
+                  return res.json()
+                }).then(function (data: { data: { nome: string } }) {
+                  setValue('cidade', data.data.nome);
+                  const tempObj: User = { ...browserUser, usuario: { ...browserUser.usuario, ...data.data } };
+                  localStorage.setItem('user', JSON.stringify(tempObj));
+                  setbrowserUser(tempObj);
+                  setreqStatus(true);
+                  setreqMessage('Usuário atualizado com sucesso!');
+                  setShowToast(true);
+                })
             })
         } else {
           setreqStatus(false);
@@ -210,7 +223,7 @@ export default function UpdateUser() {
               </Form.Group>
             </div>
 
-            <div className={styles.btns_div+" mt-2 mb-3 d-flex justify-content-end"}>
+            <div className={styles.btns_div + " mt-2 mb-3 d-flex justify-content-end"}>
               <Button type="submit" onClick={handleClickClearBtn} disabled={submitLoading ? true : false} variant="secondary" className="w-25" size="sm">
                 Limpar
               </Button>
