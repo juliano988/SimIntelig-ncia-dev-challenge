@@ -94,8 +94,8 @@ export default function UpdateUser() {
           fetch('https://api.avaliacao.siminteligencia.com.br/api/v1/editar-usuario', reqParams)
             .then(function (res) {
               return res.json()
-            }).then(function (data: { data: User }) {
-              const userData: User = data.data;
+            }).then(function (data: { data: User['usuario'] }) {
+              const userData = data.data;
 
               if (userData) {
                 const reqHeader = new Headers();
@@ -109,9 +109,10 @@ export default function UpdateUser() {
                     return res.json()
                   }).then(function (data: { data: { nome: string } }) {
                     setValue('cidade', data.data.nome);
-                    const tempObj: User = { ...browserUser, usuario: { ...browserUser.usuario, ...userData.usuario } };
+                    const tempObj: User = { ...browserUser, usuario: { ...userData } };
+                    console.log(userData)
                     localStorage.setItem('user', JSON.stringify(tempObj));
-                    setbrowserUser(tempObj);
+                    console.log(tempObj)
                     setreqStatus(true);
                     setreqMessage('Usuário atualizado com sucesso!');
                     setsubmitLoading(false);
