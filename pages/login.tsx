@@ -52,7 +52,7 @@ export default function Login() {
   return (
     <>
       <div className="d-flex">
-        <div className="d-flex flex-column justify-content-center vh-100 ml-5 mr-5">
+        <div className={styles.login_container + " d-flex flex-column justify-content-center vh-100 ml-5 mr-5"}>
           <div>
             <img src="sim-form-logo.PNG"></img>
           </div>

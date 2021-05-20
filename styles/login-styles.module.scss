@@ -1,11 +1,23 @@
-.char_div{
+.char_div {
   width: 100%;
-  background-image: url('../public/char-img.PNG');
+  background-image: url("../public/char-img.PNG");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
 }
 
-.form_input{
+.form_input {
   width: 400px;
+}
+
+@media (max-width: 575.98px) {
+  .login_container {
+    margin: auto !important;
+  }
+  .form_input{
+    width: 100%;
+  }
+  .char_div {
+    display: none;
+  }
 }
