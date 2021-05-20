@@ -60,7 +60,7 @@ export default function Login() {
 
             <div>
               <Form.Group className="w-100 mb-2">
-                <Form.Label>Login</Form.Label>
+                <Form.Label className="font-weight-bold">Login</Form.Label>
                 <Form.Control type="email" placeholder="Seu login" size="sm" className={styles.form_input} defaultValue="teste123a@teste.com" isInvalid={errors.email} {...register("email")} />
                 {errors.email ?
                   <Form.Control.Feedback type="invalid">
@@ -69,9 +69,9 @@ export default function Login() {
               </Form.Group>
 
               <Form.Group className="w-100 mb-2">
-                <div className="d-flex">
-                  <Form.Label>Senha</Form.Label>
-                  <p className="w-100 text-right mb-0">Esqueceu a senha?</p>
+                <div className="d-flex align-items-center">
+                  <Form.Label className="font-weight-bold">Senha</Form.Label>
+                  <p style={{ fontSize: '0.8rem', color: '#b0bdd9' }} className="w-100 text-right mb-0 font-weight-bold">Esqueceu a senha?</p>
                 </div>
                 <Form.Control type="password" placeholder="Sua senha" size="sm" defaultValue="123" isInvalid={errors.password} {...register("password")} />
                 {errors.password ?

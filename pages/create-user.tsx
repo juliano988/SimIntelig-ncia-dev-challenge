@@ -62,7 +62,7 @@ export default function CreateUser() {
 
             <div className="d-flex justify-content-around">
               <Form.Group className="w-100 m-1">
-                <Form.Label>Nome</Form.Label>
+                <Form.Label className="font-weight-bold">Nome</Form.Label>
                 <Form.Control type="text" placeholder="Seu nome" size="sm" className={styles.form_input} isInvalid={errors.name} {...register("name")} />
                 {errors.name ?
                   <Form.Control.Feedback type="invalid">
@@ -72,7 +72,7 @@ export default function CreateUser() {
               </Form.Group>
 
               <Form.Group className="w-100 m-1">
-                <Form.Label>Email</Form.Label>
+                <Form.Label className="font-weight-bold">Email</Form.Label>
                 <Form.Control type="email" placeholder="Seu email" size="sm" className={styles.form_input} isInvalid={errors.email} {...register("email")} />
                 {errors.email ?
                   <Form.Control.Feedback type="invalid">
@@ -83,7 +83,7 @@ export default function CreateUser() {
 
             <div className="d-flex justify-content-around">
               <Form.Group className="w-100 m-1">
-                <Form.Label>Senha</Form.Label>
+                <Form.Label className="font-weight-bold">Senha</Form.Label>
                 <Form.Control type="password" placeholder="Sua senha" size="sm" className={styles.form_input} isInvalid={errors.password} {...register("password")} />
                 {errors.password ?
                   <Form.Control.Feedback type="invalid">
@@ -92,7 +92,7 @@ export default function CreateUser() {
               </Form.Group>
 
               <Form.Group className="w-100 m-1">
-                <Form.Label>Confirme sua Senha</Form.Label>
+                <Form.Label className="font-weight-bold">Confirme sua Senha</Form.Label>
                 <Form.Control type="password" placeholder="Confirme sua senha" size="sm" className={styles.form_input} isInvalid={errors.password2} {...register("password2")} />
                 {errors.password2 ?
                   <Form.Control.Feedback type="invalid">
