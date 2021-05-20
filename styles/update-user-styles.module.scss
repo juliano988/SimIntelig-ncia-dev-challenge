@@ -1,3 +1,35 @@
-.btns_div{
+.logo_img{
+  width: 190px;
+}
+
+.progress_bar {
+  height: 5px;
+  width: 100%;
+  background-color: #edf2f9;
+  border-radius: 50px;
+}
+
+.progress_content{
+  height: 5px;
+  width: 50%;
+  background-color: rgba(0, 226, 150, 1);
+  border-radius: 50px;
+}
+
+.form_title_line{
+  height: 2px;
+  width: 100%;
+  background-color: #edf2f9;
+  border-radius: 50px;
+}
+
+.form_title_content{
+  height: 2px;
+  width: 10%;
+  background-color: rgba(0, 226, 150, 1);
+  border-radius: 50px;
+}
+
+.btns_div {
   flex-direction: row !important;
 }
