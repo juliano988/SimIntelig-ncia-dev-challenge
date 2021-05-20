@@ -91,7 +91,7 @@ export default function Login() {
               {submitLoading ? <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" /> : 'Entrar'}
             </Button>
 
-            <div className="d-flex justify-content-center mt-1">
+            <div className={styles.final_text + " d-flex justify-content-center mt-1"}>
               <p style={{ fontSize: '0.8rem' }} className="mr-1" >Ainda não possui uma conta?</p>
               <p style={{ fontSize: '0.8rem', color: "rgba(0, 226, 150, 1)" }}>Solicite uma demonstração</p>
             </div>

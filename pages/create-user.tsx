@@ -54,7 +54,7 @@ export default function CreateUser() {
   return (
     <>
       <div className="d-flex">
-        <div className="d-flex flex-column justify-content-center vh-100 ml-5 mr-5">
+        <div className={styles.login_container + " d-flex flex-column justify-content-center vh-100 ml-5 mr-5"}>
           <div>
             <img src="sim-form-logo.PNG"></img>
           </div>
@@ -111,7 +111,7 @@ export default function CreateUser() {
               {submitLoading ? <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" /> : 'Registrar'}
             </Button>
 
-            <div className="d-flex justify-content-center mt-1">
+            <div className={styles.final_text + " d-flex justify-content-center mt-1"}>
               <p style={{ fontSize: '0.8rem' }} className="mr-1" >Ainda não possui uma conta?</p>
               <p style={{ fontSize: '0.8rem', color: "rgba(0, 226, 150, 1)" }}>Solicite uma demonstração</p>
             </div>
