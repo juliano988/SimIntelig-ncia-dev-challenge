@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import styles from '../styles/login-styles.module.scss'
 import Link from 'next/link';
 import { Button, Container, Form, Spinner, Toast } from "react-bootstrap";
 import { useForm } from "react-hook-form";
@@ -50,43 +51,55 @@ export default function Login() {
 
   return (
     <>
-      <Container >
-        <img src="sim-form-logo.PNG"></img>
-        <Form className="text-left" onSubmit={handleSubmit(onSubmit)}>
-
-          <div className="">
-            <Form.Group className="w-100 m-1">
-              <Form.Label>Login</Form.Label>
-              <Form.Control type="email" placeholder="Seu login" defaultValue="teste123a@teste.com" isInvalid={errors.email} {...register("email")} />
-              {errors.email ?
-                <Form.Control.Feedback type="invalid">
-                  {errors.email?.message}
-                </Form.Control.Feedback> : <p></p>}
-
-            </Form.Group>
-
-            <Form.Group className="w-100 m-1">
-              <Form.Label>Senha</Form.Label>
-              <Form.Control type="password" placeholder="Sua senha" defaultValue="123" isInvalid={errors.password} {...register("password")} />
-              {errors.password ?
-                <Form.Control.Feedback type="invalid">
-                  {errors.password?.message}
-                </Form.Control.Feedback> : <p></p>}
-            </Form.Group>
+      <div className="d-flex">
+        <div className="d-flex flex-column justify-content-center vh-100 ml-5 mr-5">
+          <div>
+            <img src="sim-form-logo.PNG"></img>
           </div>
+          <Form className="text-left" onSubmit={handleSubmit(onSubmit)}>
 
-          <div className="w-100 text-right">
-            <Link href="/create-user">
-              <a>Criar uma conta</a>
-            </Link>
-          </div>
+            <div>
+              <Form.Group className="w-100 mb-2">
+                <Form.Label>Login</Form.Label>
+                <Form.Control type="email" placeholder="Seu login" size="sm" className={styles.form_input} defaultValue="teste123a@teste.com" isInvalid={errors.email} {...register("email")} />
+                {errors.email ?
+                  <Form.Control.Feedback type="invalid">
+                    {errors.email?.message}
+                  </Form.Control.Feedback> : ''}
+              </Form.Group>
 
-          <Button type="submit" disabled={submitLoading ? true : false} className="w-100 mt-2 btn-form" size="sm">
-            {submitLoading ? <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" /> : 'Entrar'}
-          </Button>
+              <Form.Group className="w-100 mb-2">
+                <div className="d-flex">
+                  <Form.Label>Senha</Form.Label>
+                  <p className="w-100 text-right mb-0">Esqueceu a senha?</p>
+                </div>
+                <Form.Control type="password" placeholder="Sua senha" size="sm" defaultValue="123" isInvalid={errors.password} {...register("password")} />
+                {errors.password ?
+                  <Form.Control.Feedback type="invalid">
+                    {errors.password?.message}
+                  </Form.Control.Feedback> : ''}
+              </Form.Group>
+            </div>
 
-        </Form>
-      </Container>
+            <div className="w-100 text-right">
+              <Link href="/create-user">
+                <a>Criar uma conta</a>
+              </Link>
+            </div>
+
+            <Button type="submit" disabled={submitLoading ? true : false} className="w-100 mt-2 btn-form" size="sm">
+              {submitLoading ? <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" /> : 'Entrar'}
+            </Button>
+
+            <div className="d-flex justify-content-center mt-1">
+              <p style={{ fontSize: '0.8rem' }} className="mr-1" >Ainda não possui uma conta?</p>
+              <p style={{ fontSize: '0.8rem', color: "rgba(0, 226, 150, 1)" }}>Solicite uma demonstração</p>
+            </div>
+
+          </Form>
+        </div>
+        <div className={styles.char_div}></div>
+      </div>
 
       <Toast style={{ position: 'absolute', top: 20, right: 20, color: 'white', backgroundColor: reqStatus ? '#28a745' : '#dc3545' }} onClose={() => setShowToast(false)} show={showToast} delay={3000} autohide>
         <Toast.Header>
