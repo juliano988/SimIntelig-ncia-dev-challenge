@@ -165,7 +165,7 @@ export default function UpdateUser() {
       <>
         <Container fluid>
           <Row className="justify-content-center align-items-center flex-nowrap border-bottom text-left">
-            <Col className="border-right d-flex justify-content-center">
+            <Col className={styles.logo_img_col + " border-right d-flex justify-content-center"}>
               <img className={styles.logo_img} src="sim-form-logo.PNG"></img>
             </Col>
 
@@ -208,7 +208,7 @@ export default function UpdateUser() {
 
             <Col sm={5} md={6} lg={7} className="pt-5" style={{ backgroundColor: '#f9fbfd' }}>
               <Card style={{ borderColor: '#f1f4fa' }}>
-                <Card.Body className="p-5">
+                <Card.Body className={styles.main_content_card_body + " p-5"}>
                   <div className="d-flex justify-content-between align-items-end">
                     <h6 className="text-left">Completar cadastro</h6>
                     <p className="mb-0 font-weight-bold" style={{ color: '#b0bdd9' }}>Página 1 – 2 de 2</p>
@@ -218,7 +218,7 @@ export default function UpdateUser() {
                     <div className={styles.form_title_content}></div>
                   </div>
 
-                  <div className="mr-5 ml-5">
+                  <div className={styles.main_content_card_body_div + " mr-5 ml-5"}>
                     <p className="mb-0 font-weight-bold text-left">Seu cadastro foi criado com sucesso, para acessar ao conteúdo exclusivo do Grupo TMT.<br />
                       Complete seus dados de acesso para liberar sua conta</p>
 
@@ -321,7 +321,7 @@ export default function UpdateUser() {
             </Col>
           </Row>
 
-          <Row>
+          <Row className={styles.last_row}>
             <Col className="ml-0 mr-0 pt-2 pb-5 border-top border-right">
               <div style={{ marginLeft: '-14px', marginRight: '-14px' }} className="">
                 <img src="left-col-menu.PNG"></img>
@@ -332,7 +332,7 @@ export default function UpdateUser() {
 
             <Col className="border-left">
               <p style={{ fontSize: '0.8rem', color: '#b0bdd9' }} className="mb-0 font-weight-bold text-left">Digite sua dúvida</p>
-              <hr className="mt-1 mb-1"></hr>
+              <hr className="mt-1 mb-5"></hr>
             </Col>
           </Row>
 

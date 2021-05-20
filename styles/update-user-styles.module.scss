@@ -33,3 +33,19 @@
 .btns_div {
   flex-direction: row !important;
 }
+
+@media (max-width: 575.98px) {
+  .logo_img_col{
+    display: none !important;
+  }
+  .main_content_card_body{
+    padding: 20px !important;
+  }
+  .main_content_card_body_div{
+    margin: 0px !important;
+  }
+  .last_row{
+    display: flex !important;
+    flex-direction: column-reverse !important;
+  }
+ }
