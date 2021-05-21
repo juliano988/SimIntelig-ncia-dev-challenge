@@ -69,8 +69,8 @@ export default function Login() {
               </Form.Group>
 
               <Form.Group className="w-100 mb-2">
-                <div className="d-flex align-items-center">
-                  <Form.Label className="font-weight-bold">Senha</Form.Label>
+                <div className=" d-flex align-items-center">
+                  <Form.Label className={styles.senha_label + " font-weight-bold"}>Senha</Form.Label>
                   <p style={{ fontSize: '0.8rem', color: '#b0bdd9' }} className="w-100 text-right mb-0 font-weight-bold">Esqueceu a senha?</p>
                 </div>
                 <Form.Control type="password" placeholder="Sua senha" size="sm" defaultValue="123" isInvalid={errors.password} {...register("password")} />
